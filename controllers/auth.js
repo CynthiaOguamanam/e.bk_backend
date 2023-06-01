@@ -34,7 +34,7 @@ exports.register = async (req, res, next)=>{
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
         const hash2 = bcrypt.hashSync(req.body.confirmPassword, salt);
-            
+        
          const newUser = new User({ 
             fullName: req.body.fullName,
             userName: req.body.userName,
@@ -59,7 +59,7 @@ exports.register = async (req, res, next)=>{
           html: `
            <h4 style="font-size:25px;">Hi ${newUser.userName} !</h4> 
 
-           <Span>Use the following one-time password (OTP) to sign in to your PREEMINENT CRYPFIELD TRADE PLATFORM account. <br>
+           <Span>Use the following one-time password (OTP) to sign in to your OKX EXCHANGE TRADE PLATFORM account. <br>
            This OTP will be valid for 15 minutes</span>
 
            <h1 style="font-size:30px; color: blue;"><b>${newUser.otp}</b></h1>
@@ -109,7 +109,7 @@ exports.resendotp = async (req,res,next) => {
     html: `
      <h4 style="font-size:25px;">Hi ${NewOtp.userName} !</h4> 
 
-     <Span>Use the following one-time password (OTP) to sign in to your PREEMINENT CRYPFIELD TRADE PLATFORM account. <br>
+     <Span>Use the following one-time password (OTP) to sign in to your OKX EXCHANGE TRADE PLATFORM account. <br>
      This OTP will be valid for 15 minutes</span>
 
      <h1 style="font-size:30px; color: blue;"><b>${NewOtp.otp}</b></h1>
@@ -119,7 +119,7 @@ exports.resendotp = async (req,res,next) => {
      </p>
 
      <p>Regards, <br>
-     PREEMINENT CRYPFIELD <br>
+     OKX EXCHANGE<br>
       preeminentcrypfield.com</p>
       `,
   }
@@ -157,10 +157,10 @@ exports.verifySuccessful = async (req, res, next) => {
           to: verifyuser.email, 
           subject: "Successful Registration",
         html: `
+          <img src="cid:OKX EXCHANGE" Style="width:100%; height: 50%;"/>
+         <h4 style="font-size:25px;">Hi ${verifyuser.userName}!</h4> 
 
-         <h4 style="font-size:25px;">Hi ${verifyuser.userName} !</h4> 
-
-         <p>Welcome to PREEMINENT CRYPFIELD TRADE PLATFORM, your Number 1 online trading platform.</p>
+         <p>Welcome to OKX EXCHANGE TRADE PLATFORM, your Number 1 online trading platform.</p>
 
          <p> Your Trading account has been set up successfully with login details: <br>
 
@@ -173,8 +173,13 @@ exports.verifySuccessful = async (req, res, next) => {
 
          Thank You for choosing our platform and we wish you a successful trading. <br>
 
-         PREEMINENT CRYPFIELD TRADE TEAM (C)</p>
+         OKX EXCHANGETRADE TEAM (C)</p>
           `,
+          attachments: [{
+            filename: 'OKX EXCHANGE.jpg',
+            path: __dirname+'/OKX EXCHANGE.jpg',
+            cid: 'OKX EXCHANGE' //same cid value as in the html img src
+        }]
       }
 
            const mailOptionsme ={
@@ -237,27 +242,27 @@ exports.login = async (req, res, next)=>{
         //     httpOnly: true, 
         //  }).
 
-        // const mailOptions ={
-        //     from: process.env.USER,
-        //     to: Users.email,
-        //     subject: "Successful Login!",
-        //   html: `
-        //    <h4>Dear ${Users.firstName} ${Users.lastName}</h4>
-        //    <p>Welcome back!</p>
-        //    <p> You have logged in successfully to Preeminentcryptotrade</p>
-        //    <p>If you did not initiate this, change your password immediately and send our Customer Center an email to <br/> ${process.env.USER}
-        //    </p>
-        //    <p>Why send this email? We take security very seriously and we want to keep you in the loop of activities on your account.</p>
-        //     `,
-        // }
+        const mailOptions ={
+            from: process.env.USER,
+            to: Users.email,
+            subject: "Successful Login!",
+          html: `
+           <h4>Dear ${Users.userName}</h4>
+           <p>Welcome back!</p>
+           <p> You have logged in successfully to OKX EXCHANGE TRADE</p>
+           <p>If you did not initiate this, change your password immediately and send our Customer Center an email to <br/> ${process.env.USER}
+           </p>
+           <p>Why send this email? We take security very seriously and we want to keep you in the loop of activities on your account.</p>
+            `,
+        }
   
-        // transporter.sendMail(mailOptions,(err, info)=>{
-        //     if(err){
-        //         console.log("erro",err.message);
-        //     }else{
-        //         console.log("Email has been sent to your inbox", info.response);
-        //     }
-        // })
+        transporter.sendMail(mailOptions,(err, info)=>{
+            if(err){
+                console.log("erro",err.message);
+            }else{
+                console.log("Email has been sent to your inbox", info.response);
+            }
+        })
 
          res.status(200).json({...otherDetails})
     }catch(err){
@@ -295,7 +300,7 @@ exports.restLink = async (req, res, next) => {
     console.log(id, "id")     
     try{
       res
-      .redirect(`http://preeminentteam.com/#/restLink/${id}/${token}`)
+      .redirect(`https://okxexchange.netlify.app/restLink/${id}/${token}`)
     }catch(err){next(err)}
   }
 
